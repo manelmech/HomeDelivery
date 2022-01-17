@@ -95,7 +95,7 @@ public function single()
 public function rowCount()
 {
 
-    return $this->statement->rowCount( );
+    return $this->statement->rowCount();
 
 } 
 
