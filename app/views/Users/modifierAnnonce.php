@@ -55,33 +55,57 @@
     <p>à partir d'ici !</p>
   </div>
 
+
+
   <form action="<?php echo URLROOT; ?>/Users/modifierAnnonce" method="POST" class="signupForm" name="signupform">
     <h2>Votre annonce</h2>
+
     <ul class="noBullet">
+    </br>
+        <div class="fourchetteopt">
+          <div class="select">
+          <li>
+          <label for="pet-select" >Wilaya de depart</label>
 
-      <li>
-        <label for="username">Adresse de depart </label>
-        <input type="text" class="inputFields" name="pointdepart" value=' <?php   print_r($data['detannonce']->pointdepart);?>' placeholder="Point de depart" required/>
-      </li>
+           <select  name="pointdepart" id="search_categories">
+           <option value= <?php   print_r($data['detannonce']->pointdepart);?> class="inputFields"> <?php   print_r($data['detannonce']->wilayadepart);?></option>
+           <?php   foreach($data['wilayas'] as $wilaya): ?>
+           <option value= <?php echo $wilaya->idwilaya ?> ><?php echo  $wilaya->nomwilaya?></option>
+           <?php endforeach; ?>
+           </select>
 
-      <li>
-        <label for="password">Adresse d'arrivé  </label>
-        <input type="text" class="inputFields" name="pointarrive" value=' <?php   print_r($data['detannonce']->pointarrive);  ?>' placeholder="point d'arrive" value=""  required/>
-      </li>
+          </li>
+           </div>
+        </div>
+        </br>
+        </br>
 
+        <div class="fourchetteopt">
+          <div class="select">
+          <li>
+          <label for="pet-select" >Wilaya d'arrive   </label>
+      
+        <select  name="pointarrive" id="search_categories">
+        <option value=' <?php   print_r($data['detannonce']->pointarrive);  ?>' class="inputFields"> <?php  echo  $data['detannonce']->wilayaarrive  ?></option>
+        <?php   foreach($data['wilayas'] as $wilaya): ?>
+        <option value= <?php echo $wilaya->idwilaya ?> ><?php echo  $wilaya->nomwilaya?></option>
+        <?php endforeach; ?>
 
+         </select>
+         </li>
+           </div>
+        </div>
+        </br>
       </br>
       <div class="fourchetteopt">
       <div class="select">
       <li>
       <label for="pet-select" >Type de transport</label>
         <select name="transporttype" id="search_categories">
-        <option value="<?php   print_r($data['detannonce']->transporttype);  ?> " class="inputFields"><?php   print_r($data['detannonce']->transporttype);  ?></option>
-        <option value="Colis"> Colis </option> 
-        <option value=" Lettere"> Lettere</option>
-        <option value="Meuble">  Meuble</option>
-        <option value="Eléctroménager">Eléctroménager</option>
-        <option value="Démenagement">Démenagement</option>
+        <option value="<?php   print_r($data['detannonce']->transporttype);  ?> " class="inputFields"><?php    print_r($data['detannonce']->nomtranstype);  ?></option>
+        <?php   foreach($data['transporttype'] as $t): ?>
+        <option value= <?php echo $t->idtransport ?> ><?php echo $t->nomtranstype?></option>
+        <?php endforeach; ?>
         </select>
         </li>
       </div>
@@ -92,7 +116,7 @@
 
       <li>
         <label for="password"> Moyen de transport </label>
-        <input type="text" class="inputFields" name="transport" placeholder="transport" value=<?php   print_r($data['detannonce']->transport);  ?> required/>
+        <input type="text" class="inputFields" name="transport" placeholder="transport" value=<?php   print_r($data['detannonce']->transport); ?>   required/>
       </li>
 
 </br>
@@ -101,12 +125,10 @@
       <li>
       <label for="pet-select" >Poids du colis</label>
         <select name="forchettepoid" id="search_categories">
-        <option value="<?php   print_r($data['detannonce']->fourchettepoid);  ?> "class="inputFields"><?php   print_r($data['detannonce']->fourchettepoid);  ?></option>
-        <option value="0->100gr">  0->100gr </option> 
-        <option value="100g->1Kg">  100g->1Kg</option>
-        <option value="1Kg->10Kg">  1Kg->10Kg</option>
-        <option value="10kg->100Kg">10kg->100Kg</option>
-        <option value="100Kg->100Kg">100Kg->1000Kg</option>
+        <option value="<?php   print_r($data['detannonce']->fourchettepoid);  ?>" class="inputFields"><?php   print_r($data['detannonce']->nompoid);  ?></option>
+        <?php   foreach($data['poids'] as $poid): ?>
+        <option value= <?php echo $poid -> idpoid ?> ><?php echo  $poid->nompoid?></option>
+        <?php endforeach; ?>
         </select>
         </li>
       </div>
@@ -119,16 +141,15 @@
        <li>
       <label for="pet-select" >Volume du colis</label>
         <select name="forchettevolume" id="search_categories">
-        <option value="<?php   print_r($data['detannonce']->fourchettevolume); ?>" class="inputFields"> <?php   print_r($data['detannonce']->fourchettevolume); ?> </option>
-        <option value="0->100dm³">  0->100dm³ </option> 
-        <option value="100dm³->1m³">100dm³->1m³</option>
-        <option value="1m³->10m³">  1m³->10m³</option>
-        <option value="10m³->100m³">10m³->100m³</option>
-        <option value="100m³->1000m³">100m³->1000m³</option>
+        <option value="<?php   print_r($data['detannonce']->fourchettevolume); ?>" class="inputFields"><?php   print_r($data['detannonce']->nomvolume);?></option>
+        <?php   foreach($data['volumes'] as $volume): ?>
+        <option value= <?php echo $volume -> idvolume ?> ><?php echo   $volume -> nomvolume ?></option>
+        <?php endforeach; ?>
         </select>
         </li>
       </div>
       </div>
+    
 
        <li>
       <input name='idannonce' value="<?php  echo $data['detannonce']->idannonce ;?>" type='hidden' />

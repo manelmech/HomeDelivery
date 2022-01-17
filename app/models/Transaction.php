@@ -21,6 +21,20 @@ class Transaction{
         return $result;
 
     }
+
+    public function getTransactionsClientByID($id)
+    {
+        $this->db->query("SELECT * FROM ((transactions
+        INNER JOIN annonces ON transactions.id_annonce = annonces.idannonce)
+        INNER JOIN users ON users.iduser = transactions.id_transporteur)
+        WHERE idtrans=:id ");
+
+        $this->db->bind(':id',$id);
+        $result= $this->db->resultSet();
+        return $result;
+
+    }
+
     public function getTransactionsTransporteur()
     {
         $this->db->query("SELECT * FROM ((transactions
@@ -31,6 +45,20 @@ class Transaction{
         return $result;
 
     }
+
+    public function getTransactionsTransporteurByID($id)
+    {
+        $this->db->query("SELECT * FROM ((transactions
+        INNER JOIN annonces ON transactions.id_annonce = annonces.idannonce)
+        INNER JOIN users ON users.iduser = annonces.userid)
+        WHERE idtrans=:id;");
+
+        $this->db->bind(':id',$id);
+        $result= $this->db->resultSet();
+        return $result;
+
+    }
+
 
 
     public function setTransactions($data){
@@ -63,7 +91,6 @@ class Transaction{
     public function updateAvisTransporteur($Avistrans,$idtrans){
 
         $this->db->query("UPDATE `transactions`   
-
         SET `Avistrans` = :Avistrans  
         WHERE `idtrans` = :idtrans  " );
 
@@ -71,8 +98,6 @@ class Transaction{
         $this->db->bind(':idtrans',$idtrans);
 
         $this->db->execute();
-
-
 
 
     }

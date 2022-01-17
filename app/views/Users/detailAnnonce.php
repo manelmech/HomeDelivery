@@ -19,8 +19,6 @@
 <?php
     require APPROOT . '/views/includes/navigation.php';
 ?>
-  
-
 </div>
 
 
@@ -42,16 +40,16 @@
 
       <li>
         <div id='a'><p  >Wilaya de depart </p></div>
-        <div id='a' ><p   class="inputFields"> <?php   print_r($data['detannonce']->pointdepart);  ?> </p></div>
+        <div id='a' ><p   class="inputFields"> <?php   print_r($data['detannonce']->wilayadepart);  ?> </p></div>
       </li>
 
       <li>
         <p id='b' >Wilaya d'arrivé </p>
-        <p  id='b'  class="inputFields"> <?php   print_r($data['detannonce']->pointarrive);  ?> </p>      
+        <p  id='b'  class="inputFields"> <?php   print_r($data['detannonce']->wilayaarrive);  ?> </p>      
 
       <li>
       <p id='a' > Type de transport </p>
-      <p  id='a'  class="inputFields"> <?php   print_r($data['detannonce']->transporttype);  ?> </p>      
+      <p  id='a'  class="inputFields"> <?php   print_r($data['detannonce']->nomtranstype);  ?> </p>      
       </li>
 
       <li>
@@ -62,18 +60,18 @@
       
        <li>
       <p id='d' > Fourchette de poids </p>
-      <p  id='d'  class="inputFields"> <?php   print_r($data['detannonce']->fourchettepoid);  ?> </p>      
+      <p  id='d'  class="inputFields"> <?php   print_r($data['detannonce']->nompoid);  ?> </p>      
       </li>
 
      
 </br>
        <li>
       <p id='e' > Forchette de volume </p>
-      <p  id='e'  class="inputFields"> <?php   print_r($data['detannonce']->fourchettevolume);  ?> </p>      
+      <p  id='e'  class="inputFields"> <?php   print_r($data['detannonce']->nomvolume);  ?> </p>      
       </li>
 
       
-
+       
       <li>
       <p id='f' > Prix du transport </p>
       <p  id='f'  class="inputFields"> <?php   print_r($data['detannonce']->prix);  ?> </p>      
@@ -83,9 +81,12 @@
       <input name='id' value="<?php  echo $data['detannonce']->idannonce ;?>" type='hidden' />
        </li>
 
-      
+       <li>
+      <input name='trans' value=true type='hidden' />
+       </li>
 
-         <?php if(($_SESSION['transporteur']=='yes') || ($_SESSION['transporteurcertifie']=='yes')) :?>
+
+         <?php if($data['postule']=='true'): ?>
       <li id="center-btn">
         <input type="submit" id="join-btn" name="Postuler" alt="Postuler"  value="Postuler">
       </li>
@@ -97,6 +98,7 @@
      
     </ul>
   </form>
+ 
   
 
 
@@ -110,7 +112,7 @@
 </br></br></br></br></br></br></br></br></br></br> </br></br></br></br></br> </br>
 
 
-<
+
 
 <style>
   @import url(https://fonts.googleapis.com/css?family=Open+Sans:300);

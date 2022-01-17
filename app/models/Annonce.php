@@ -12,7 +12,12 @@ class Annonce{
 
     public function getAnnonces()
     {
-        $this->db->query("SELECT * FROM annonces");
+        $this->db->query('SELECT * , wildep.nomwilaya as wilayadepart, wilarv.nomwilaya as wilayaarrive FROM annonces 
+        INNER JOIN volume ON annonces.fourchettevolume = volume.idvolume 
+        INNER JOIN poid ON annonces.fourchettepoid = poid.idpoid
+        INNER JOIN typetransport ON typetransport.idtransport = annonces.transporttype
+        INNER JOIN wilayas as wildep ON wildep.idwilaya  = annonces.pointdepart
+        INNER JOIN wilayas as wilarv ON wilarv.idwilaya  = annonces.pointarrive' );
         $result= $this->db->resultSet();
         return $result;
 
@@ -29,8 +34,8 @@ class Annonce{
         $this->db->bind(':fourchettepoid',$data['fourchettepoid']);
         $this->db->bind(':fourchettevolume',$data['fourchettevolume']);
         $this->db->bind(':userid',$data['user_id']);
-        $this->db->bind(':Etat',$data['Etat']);
-        $this->db->bind(':prix',$data['prix']);
+        $this->db->bind(':Etat','En attente');
+        $this->db->bind(':prix','');
 
        
 
@@ -47,7 +52,13 @@ class Annonce{
 
     public function findAnnonceById($id)
     {
-        $this->db->query('SELECT * FROM annonces WHERE idannonce = :idannonce');
+        $this->db->query('SELECT * , wildep.nomwilaya as wilayadepart, wilarv.nomwilaya as wilayaarrive FROM annonces 
+        INNER JOIN volume ON annonces.fourchettevolume = volume.idvolume 
+        INNER JOIN poid ON annonces.fourchettepoid = poid.idpoid
+        INNER JOIN typetransport ON typetransport.idtransport = annonces.transporttype
+        INNER JOIN wilayas as wildep ON wildep.idwilaya  = annonces.pointdepart
+        INNER JOIN wilayas as wilarv ON wilarv.idwilaya  = annonces.pointarrive
+        WHERE idannonce = :idannonce ' );
          
         $this->db->bind(':idannonce',$id);
 
@@ -99,6 +110,21 @@ class Annonce{
        }else{return false ; };
         
 
+
+
+
+    }
+
+    public function supprimerAnnonces($idannonce){
+        
+        $this->db->query("DELETE FROM transactions WHERE id_annonce= :idannonce");
+        $this->db->bind(':idannonce',$idannonce);
+        $this->db->execute();
+
+        $this->db->query("DELETE FROM annonces WHERE idannonce= :idannonce");
+        $this->db->bind(':idannonce',$idannonce);
+        $this->db->execute();
+      
 
 
 

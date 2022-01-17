@@ -8,6 +8,14 @@ class Users extends Controller{
         $this->userModel = $this->model('User');
         $this->annonceModel = $this->model('Annonce');
         $this->transactionModel=$this->model('Transaction');
+        $this->signalementModel=$this->model('Signalement');
+        $this->documentModel=$this->model('Document');
+        $this->wilayaModel=$this->model('Wilaya');
+        $this->poidModel=$this->model('Poid');
+        $this->volumeModel=$this->model('Volume');
+        $this->transporttypeModel=$this->model('Transporttype');
+        $this->WilayatransporteurModel=$this->model('Wilayatransporteur');
+
     }
 
 
@@ -87,9 +95,8 @@ class Users extends Controller{
             'emailError' => '',
             'passwordError' => '',
             'confirmPasswordError' => '',
-            'wilayaError' => '',
+            'wilayas' => $this->wilayaModel->getWilayas(),
             'numtel' => '',
-
 
 
         ];
@@ -104,17 +111,19 @@ class Users extends Controller{
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
                 'confirmPassword' => trim($_POST['confirmPassword']),
-                'wilaya' =>trim($_POST['wilaya']),
                 'transporteur'=>trim($_POST['yesnotran']),
                 'transporteurcertifie'=>trim($_POST['yesnocert']),
+                'wilayadepart'=>trim($_POST['wilayadepart']),
+                'wilayaarrive'=>trim($_POST['wilayaarrive']),
                 'usernameError' => '',
                 'emailError' => '',
                 'passwordError' => '',
                 'confirmPasswordError' => '',
-                'wilayaError' => '' ,
                 'numtel' => trim($_POST['numtel']),
+                'wilayas' => $this->wilayaModel->getWilayas(),
             ];
-
+                   
+            print_r($data);
             $nameValidation = "/^[a-zA-Z0-9]*$/";
             $passwordValidation = "/^(.{0,7}|[^a-z]*|[^\d]*)$/i";
 
@@ -150,9 +159,6 @@ class Users extends Controller{
               $data['passwordError'] = 'Password must be have at least one numeric value.';
             }
 
-            if (empty($data['wilaya']) &&  ($data['transporteur']=='yes')) {
-                $data['wilayaError'] = 'Please enter at least one wilaya.';
-            } 
 
             //Validate confirm password
              if (empty($data['confirmPassword'])) {
@@ -164,7 +170,7 @@ class Users extends Controller{
             }
 
             // Make sure that errors are empty
-            if (empty($data['usernameError']) && empty($data['emailError']) && empty($data['passwordError']) && empty($data['confirmPasswordError']) && empty($data['wilayaError'])) {
+            if (empty($data['usernameError']) && empty($data['emailError']) && empty($data['passwordError']) && empty($data['confirmPasswordError'])) {
 
                 // Hash password
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
@@ -195,6 +201,10 @@ class Users extends Controller{
         $_SESSION['numtelephone'] = $user->numtelephone;
         $_SESSION['transporteur'] = $user->transporteur;
         $_SESSION['transporteurcertifie'] = $user->transporteurcertifie;
+        $_SESSION['visiteur'] = $user->visiteur;
+        $_SESSION['note'] = $user->note;
+        $_SESSION['etat'] = $user->etat;
+
         
 
         header('location:' . URLROOT . '/users/indexuser');
@@ -221,14 +231,18 @@ class Users extends Controller{
         $data = [
             'pointdepart' => '',
             'pointarrive' => '',
-            'transporttype' => '',
             'transport' => '',
             'fourchettepoid' => '',
             'fourchettevolume' => '',
             'user_id' =>'',
-            'prix' =>'',
-            'Etat' =>'',
-            'annonces'=>$annonces];
+            'annonces'=>$annonces,
+            'wilayas' => $this->wilayaModel->getWilayas(),
+            'volumes' => $this->volumeModel->getVolume(),
+            'poids' => $this->poidModel->getPoids(),
+            'transporttype' =>$this->transporttypeModel->getTransporttype()
+
+
+            ];
         
 
 
@@ -241,18 +255,14 @@ class Users extends Controller{
           'transport' => trim($_POST['transport']),
           'fourchettepoid' => trim($_POST['forchettepoid']),
           'fourchettevolume' => trim($_POST['forchettevolume']),
-          'user_id' => trim($_POST['iduser'])
-      ];  
+          'user_id' => trim($_POST['iduser']),
 
-          if(($data['transporttype']=='Lettre')|| ($data['transporttype']=='Petit colis')){
-               
-            $data = [ 'prix' => 'negociable'];
-          }
+      ];  
 
       if ($this->annonceModel->setAnnonce($data))
        {
         //Redirect to the login page
-        header('location: ' . URLROOT . 'Users/indexuser');
+        header('location: ' . URLROOT . '/Users/indexuser');
     } else {
         die('Something went wrong.');
     }
@@ -272,10 +282,13 @@ class Users extends Controller{
 
         if($_SERVER['REQUEST_METHOD'] == 'GET'){
         $detannonce = $this->annonceModel->findAnnonceById($_GET['id']); 
-        $data = ['detannonce'=>$detannonce];
+        
+        $data = ['detannonce'=> $detannonce,
+                'postule'=> $_GET['postule'],
+                ];
         }
-    
-
+        
+         
         $this->view('Users/detailAnnonce', $data);
 
 
@@ -283,7 +296,11 @@ class Users extends Controller{
     }
      
 
+
+
+
     public function postulerAnnonce(){
+
         $data = ['annonces'=>'',
         'transactionsclient'=>'',
         'transactionstransporteur'=>'',
@@ -293,10 +310,13 @@ class Users extends Controller{
         'Avistrans'=>'' ];
 
         if($_SERVER['REQUEST_METHOD'] == 'GET'){
+
+            if($_GET['trans']==true){$Avistrans='En Attente';}else{$Avistrans='Confirme';}
+            if($_GET['trans']==true){$clt=$_SESSION['user_id'];}else{ $clt=$_GET['idclt'] ; }
              
-            $data = ['Avisclient'=>'En Attente',
+            $data = ['Avisclient'=>$Avistrans,
           'id_annonce'=>$_GET['id'],
-          'id_transporteur'=>  $_SESSION['user_id'],
+          'id_transporteur'=> $clt,
           'Avistrans'=>'En Attente'
         ];
 
@@ -340,7 +360,7 @@ class Users extends Controller{
 
   public function  modifierAnnonce()
   {
-    
+
     $data = [
         'pointdepart' => '',
         'pointarrive' => '',
@@ -351,27 +371,22 @@ class Users extends Controller{
         'user_id' =>'',
         'prix' =>'',
         'Etat' =>'',
-        'annonces'=>''];
+        'annonces'=>'',
+        ];
 
     if($_SERVER['REQUEST_METHOD'] == 'GET'){
+        $annonces = $this->annonceModel->getAnnonces(); 
         $detannonce = $this->annonceModel->findAnnonceById($_GET['idannonce']); 
-        $data = ['detannonce'=>$detannonce];}
+        $data = ['detannonce'=>$detannonce, 'annonces'=>$annonces,
+        'wilayas' => $this->wilayaModel->getWilayas(),
+        'volumes' => $this->volumeModel->getVolume(),
+        'poids' => $this->poidModel->getPoids(),
+        'transporttype' =>$this->transporttypeModel->getTransporttype()];}
         
     
 
        if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-        $data = [
-            'pointdepart' => '',
-            'pointarrive' => '',
-            'transporttype' => '',
-            'transport' => '',
-            'fourchettepoid' => '',
-            'fourchettevolume' => '',
-            'user_id' =>'',
-            'prix' =>'',
-            'Etat' =>'',
-            'annonces'=>''];
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         $data = [
             'pointdepart' => trim($_POST['pointdepart']),
@@ -398,6 +413,11 @@ class Users extends Controller{
 $this->view('Users/modifierAnnonce', $data);
 
   }
+  
+    
+  
+
+
 
   
   public function refuserTransporteur()
@@ -413,6 +433,7 @@ $this->view('Users/modifierAnnonce', $data);
 
     
     public function userProfile(){
+
         $data = ['annonces'=>'',
               'transactionsclient'=>'',
               'transactionstransporteur'=>'' ];
@@ -423,17 +444,100 @@ $this->view('Users/modifierAnnonce', $data);
 
         $transaction = $this->transactionModel->getTransactionsClient(); 
         $transactionstransporteur = $this->transactionModel->getTransactionsTransporteur();
+        $justificatif = $this->userModel->getJustificatif($_SESSION['user_id']);
+        $documents = $this->documentModel->getDocuments();
+        $Wilayatransporteur = $this->WilayatransporteurModel->getTranporteurWilayas();
 
 
         $data = ['annonces'=> $annonces,
               'transactionsclient'=> $transaction,
-              'transactionstransporteur'=> $transactionstransporteur ];
+              'transactionstransporteur'=> $transactionstransporteur,
+               'justificatif'=> $justificatif ,
+                'documents'=>$documents,
+                'wilayatransporteur'=>$Wilayatransporteur];
 
  
         $this->view('Users/userProfile', $data);
 
 
     }
+
+    public function supprimerAnnonce(){
+
+        if($_SERVER['REQUEST_METHOD'] == 'GET'){
+        $this->annonceModel->supprimerAnnonces($_GET['idannonce']); }
+        header('location:' . URLROOT . '/users/userProfile');
+
+
+
+    }
+
+    public function userDetails(){
+
+        if($_SERVER['REQUEST_METHOD'] == 'GET'){
+            
+        $annonces = $this->annonceModel->getAnnonces(); 
+        $transaction = $this->transactionModel->getTransactionsClientByID($_GET['id']); 
+        $transactionstransporteur = $this->transactionModel->getTransactionsTransporteurByID($_GET['id']);
+        
+
+         
+       
+
+        $data = ['annonces'=> $annonces,
+              'transactionsclient'=> $transaction,
+              'transactionstransporteur'=> $transactionstransporteur ];
+
+             
+        $this->view('Users/userdetails',$data);}
+       
+
+    }
+
+    public function signalerUtilisateur(){
+
+        if($_SERVER['REQUEST_METHOD'] == 'GET'){
+              
+            $annonces = $this->annonceModel->getAnnonces();
+            $transaction = $this->transactionModel->getTransactionsClientByID($_GET['id']); 
+            $transactionstransporteur = $this->transactionModel->getTransactionsTransporteurByID($_GET['id']);
+
+            $data = ['annonces'=> $annonces,
+                    'transactionsclient'=> $transaction,
+                    'transactionstransporteur'=> $transactionstransporteur ];
+    
+        
+            $data = ['idsignaleur'=> $_SESSION['user_id'],
+            'idsignale'=>$data['transactionsclient'][0]->id_transporteur,
+            'idannonce'=> $data['transactionsclient'][0]->id_annonce ];
+
+        if( $this->signalementModel->setSignalement($data)){
+            header('location:' . URLROOT . '/users/userdetails?id='.$_GET['id']);
+         
+        } 
+             
+      }
+     
+
+    }
+
+    public function noterTransporteur(){
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $this->userModel->setNote($_POST['idtransp'],$_POST['note'] );
+            header('location:' . URLROOT . '/users/userdetails?id='.$_POST['idtrans']);
+            
+
+        }
+
+
+    }
+
+  
+
+    
+
+  
 
 
 }

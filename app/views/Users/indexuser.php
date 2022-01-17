@@ -9,7 +9,7 @@
 
   <h3 class="btn-login"><a href="<?php echo URLROOT; ?>/Users/logout">Log out</a></h3>
 
-<img  id="logoimg" src="<?php echo URLROOT ?>/public/img/logo.png" alt="" height="140%"  >
+  <img  id="logoimg" src="<?php echo URLROOT ?>/public/img/logo.png" alt="" height="140%"  >
 
 <input  id='userlogo' type="image" src="<?php echo URLROOT ?>/public/img/userlogo.png" onclick="location.href='<?php echo URLROOT; ?>/Users/userprofile'"/> 
   <style>
@@ -54,21 +54,44 @@
     <i class="icon ion-ios-ionic-outline" aria-hidden="true"></i>
     <p>à partir d'ici !</p>
   </div>
-  <form action="#" method="POST" class="signupForm" name="signupform">
+  <form action="<?php echo URLROOT; ?>/Users/indexuser " method="POST" class="signupForm" name="signupform">
     <h2>Votre annonce</h2>
     <ul class="noBullet">
+    </br>
+        <div class="fourchetteopt">
+          <div class="select">
+          <li>
+          <label for="pet-select" >Wilaya de depart</label>
 
-      <li>
-        <label for="username">Adresse de depart </label>
-        <input type="text" class="inputFields" name="pointdepart" placeholder="Point de depart" required/>
-      </li>
+           <select  name="pointdepart" id="search_categories">
+           <option value="" class="inputFields">--Please choose an option--</option>
+           <?php   foreach($data['wilayas'] as $wilaya): ?>
+           <option value= <?php echo $wilaya->idwilaya ?> ><?php echo  $wilaya->nomwilaya?></option>
+           <?php endforeach; ?>
+           </select>
 
-      <li>
-        <label for="password">Adresse d'arrivé  </label>
-        <input type="text" class="inputFields" name="pointarrive" placeholder="point d'arrive" value=""  required/>
-      </li>
+          </li>
+           </div>
+        </div>
+        </br>
+        </br>
 
+        <div class="fourchetteopt">
+          <div class="select">
+          <li>
+          <label for="pet-select" >Wilaya d'arrive   </label>
+      
+        <select  name="pointarrive" id="search_categories">
+        <option value="" class="inputFields">--Please choose an option--</option>
+        <?php   foreach($data['wilayas'] as $wilaya): ?>
+        <option value= <?php echo $wilaya->idwilaya ?> ><?php echo  $wilaya->nomwilaya?></option>
+        <?php endforeach; ?>
 
+         </select>
+         </li>
+           </div>
+        </div>
+        </br>
       </br>
       <div class="fourchetteopt">
       <div class="select">
@@ -76,11 +99,9 @@
       <label for="pet-select" >Type de transport</label>
         <select name="transporttype" id="search_categories">
         <option value="" class="inputFields">--Please choose an option--</option>
-        <option value="Colis"> Colis </option> 
-        <option value=" Lettere"> Lettere</option>
-        <option value="Meuble">  Meuble</option>
-        <option value="Eléctroménager">Eléctroménager</option>
-        <option value="Démenagement">Démenagement</option>
+        <?php   foreach($data['transporttype'] as $t): ?>
+        <option value= <?php echo $t->idtransport ?> ><?php echo $t->nomtranstype?></option>
+        <?php endforeach; ?>
         </select>
         </li>
       </div>
@@ -101,11 +122,9 @@
       <label for="pet-select" >Poids du colis</label>
         <select name="forchettepoid" id="search_categories">
         <option value="" class="inputFields">--Please choose an option--</option>
-        <option value="0->100gr">  0->100gr </option> 
-        <option value="100g->1Kg">  100g->1Kg</option>
-        <option value="1Kg->10Kg">  1Kg->10Kg</option>
-        <option value="10kg->100Kg">10kg->100Kg</option>
-        <option value="100Kg->100Kg">100Kg->1000Kg</option>
+        <?php   foreach($data['poids'] as $poid): ?>
+        <option value= <?php echo $poid -> idpoid ?> ><?php echo  $poid->nompoid?></option>
+        <?php endforeach; ?>
         </select>
         </li>
       </div>
@@ -119,11 +138,9 @@
       <label for="pet-select" >Volume du colis</label>
         <select name="forchettevolume" id="search_categories">
         <option value="" class="inputFields">--Please choose an option--</option>
-        <option value="0->100dm³">  0->100dm³ </option> 
-        <option value="100dm³->1m³">100dm³->1m³</option>
-        <option value="1m³->10m³">  1m³->10m³</option>
-        <option value="10m³->100m³">10m³->100m³</option>
-        <option value="100m³->1000m³">100m³->1000m³</option>
+        <?php   foreach($data['volumes'] as $volume): ?>
+        <option value= <?php echo $volume -> idvolume ?> ><?php echo   $volume -> nomvolume ?></option>
+        <?php endforeach; ?>
         </select>
         </li>
       </div>
@@ -133,7 +150,7 @@
       <input name='iduser' value="<?php  echo $_SESSION['user_id'] ;?>" type='hidden' />
        </li>
       <li id="center-btn">
-        <input type="submit" id="join-btn" name="join" alt="Join" value="Join">
+        <input type="submit" id="join-btn" name="join" alt="Submit" value="Submit">
       </li>
     </ul>
   </form>
@@ -155,17 +172,55 @@
 
 
 <?php  $i=1; foreach($data['annonces'] as $annonce): ?>
+
+  <?php  if($annonce->Etat == 'Valide'): ?>
  
   <?php  if( $i<9): ?>
     <div class="warning">
     <img src="<?php echo URLROOT ?>/public/img/deliver<?php  echo $i ?>.jpeg"
          alt="An intimidating leopard.">
-    <p>Transport de <?php echo $annonce->transporttype ?></p>
-    <p id='descannonce'>Je suis á la recherche d'un transporteur de <?php $id=$annonce->idannonce; echo $annonce->transporttype ?> dont les cara.......<a href="<?php echo URLROOT; ?>/Users/detailAnnonce?id=<?php echo $id; ?>">Lire la suite</a></p>
+    <p>Transport de <?php echo $annonce->nomtranstype ?></p>
+    <?php  if( $_SESSION['transporteur']=='no'){
+                  $postule=false;
+                }
+           else{ 
+            if( ($_SESSION['transporteur']=='yes') || ($_SESSION['transporteurcertifie']=='yes')){
+                 
+                   if($_SESSION['etat']=='En attente'){
+                    $postule='false';
+                   }else {
+                     if($_SESSION['etat']=='Valide'){
+                      if(($annonce->nomtranstype=='Coliers legers')||($annonce->nomtranstype=='Lettre') ){
+                        $postule='true';
+                      }else {
+                        $postule='false';
+                      }
+                    }elseif($_SESSION['etat']=='Refuse'){
+                      $postule='false';
+                    }else{
+                      $postule='true';    
+                    }
+
+                      }
+                   
+
+
+                 }
+
+
+            }
+
+            if($_SESSION['user_id']==$annonce->userid){$postule = 'false' ; }
+
+           
+             
+     ?>
+         
+    <p id='descannonce'>A la recherche de transporteur <?php  echo $annonce->nomtranstype ?> dont les cara.......<a href="<?php echo URLROOT; ?>/Users/detailAnnonce?id=<?php echo $annonce->idannonce; ?>&postule=<?php echo $postule ?>">Lire la suite</a></p>
     </div>
     <?php endif; $i++; ?>
 
-
+    <?php  endif; ?>
 <?php endforeach; ?>
 
 

@@ -67,31 +67,51 @@
              <div style="display: inline-block;">
             Oui <input type="radio" onclick="javascript:yesnoCheck();" name="yesnotran" id="yesCheck" value='yes'>   </div>
             <div style="display: inline-block;">
-            Non <input type="radio" onclick="javascript:yesnoCheck();" name="yesnotran" id="noCheck" value='no'> </div>
+            Non <input type="radio" onclick="javascript:yesnoCheck();" name="yesnotran" id="noCheck" value='no' checked> </div>
         
         </div>
-            <span class="invalidFeedback">
-                <?php echo $data['wilayaError']; ?>
-            </span>
             <br>
+            
+            
+           <div id="ifYes" style="display:none" >
 
-           <div id="ifYes" style="display:none">
-           <label>Veuillez introduire les wilayas que vous comptez deservir en separant chacune par une ','</label>
-           <input type="text" placeholder="Wilayas *" name="wilaya">
+           <div  id='yesno' style="display: inline-block;">
+           <label>Veuillez introduire les wilayas que vous comptez deservir</label>
+            </br></br>
+
+           <div style="display: inline-block;">
+           <select  name="wilayadepart" id="search_categories">
+
+           <option value="" class="inputFields">--Wilaya de depart--</option>
+           <?php   foreach($data['wilayas'] as $wilaya): ?>
+            <option value= <?php echo $wilaya->idwilaya ?> ><?php echo  $wilaya->nomwilaya?></option>
+            <?php endforeach; ?>
+
+            </select>  </div>
+        
+            <div style="display: inline-block;">
+            <select name="wilayaarrive" id="search_categories">
+
+            <option value="" class="inputFields">--Wilaya de d'arrivee--</option>
+            <?php   foreach($data['wilayas'] as $wilaya): ?>
+            <option value= <?php echo $wilaya->idwilaya?>><?php echo $wilaya->nomwilaya?></option>
+            <?php endforeach; ?>>
+             </select>          
+            </div>
+            </div>
           
            
+            </br></br></br>
 
-   
 
-          
            <div id='yesno' style="display: inline-block;">Voulez-vous devenir un transporteur certifie? 
              </br> 
              </br> 
              
              <div style="display: inline-block;">
-            Oui <input type="radio" onclick="javascript:yesnoCheck();" name="yesnocert" id="yesCheckcert" value='yes'>   </div>
+            Oui <input type="radio" onclick="javascript:yesnoCheck();" name="yesnocert" id="yesCheckcert" value='yes' >   </div>
             <div style="display: inline-block;">
-            Non <input type="radio" onclick="javascript:yesnoCheck();" name="yesnocert" id="noCheckcert" value='no'> </div>
+            Non <input type="radio" onclick="javascript:yesnoCheck();" name="yesnocert" id="noCheckcert" value='no' checked> </div>
         
             </div>
  
