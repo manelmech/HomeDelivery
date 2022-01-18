@@ -49,6 +49,18 @@ class Pages extends Controller {
         $this->view('Pages/about');
 
     }
+
+    public function contact(){
+
+        $this->view('Pages/contact');
+
+    }
+
+    public function statistics(){
+
+        $this->view('Pages/statistics');
+
+    }
     
     
 }
