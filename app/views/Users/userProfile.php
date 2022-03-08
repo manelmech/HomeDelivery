@@ -173,14 +173,14 @@
 
         <tr>
 
-            <th> <a href="<?php echo URLROOT; ?>/Users/detailAnnonce?id=<?php echo $annonce->idannonce; ?>&postule=false">Annoce <?php echo ++$i; ?></a></th>
+            <th> <a href="<?php echo URLROOT; ?>/Users/detailAnnonce?id=<?php echo $annonce->idannonce; ?>&postule=false&contenu=1">Annoce <?php echo ++$i; ?></a></th>
             <td><?php echo $annonce->prix ?></td>
             <td><?php echo $annonce->Etat ?></td>
-            <?php if( $annonce->Etat !='Termine') :?>
+            <?php if( $annonce->Etat =='En attente') :?>
             <td><input class='button1' type='button' onclick="location.href= '<?php echo URLROOT; ?>/Users/modifierAnnonce?idannonce=<?php echo $annonce->idannonce?>'" alt=""  value="Modifier"/></td>
               <?php endif ;?>
 
-              <?php if( $annonce->Etat !='Termine') :?>
+              <?php if( $annonce->Etat =='En attente') :?>
             <td><input class='button1' type='button' onclick="location.href= '<?php echo URLROOT; ?>/Users/supprimerAnnonce?idannonce=<?php echo $annonce->idannonce?>'" alt=""  value="Supprimer"/></td>
               <?php endif ;?>
             
@@ -221,9 +221,9 @@
 
     <tr>
 
-        <th><a href="<?php echo URLROOT; ?>/Users/detailAnnonce?id=<?php echo $transaction->idannonce; ?>">Annoce<?php echo ++$i; ?></a></th>
+        <th><a href="<?php echo URLROOT; ?>/Users/detailAnnonce?id=<?php echo $transaction->idannonce; ?>&contenu=1">Annoce<?php echo ++$i; ?></a></th>
         
-        <td><a href="<?php echo URLROOT; ?>/Users/userdetails?id=<?php echo $transaction->idtrans; ?>">transporteur<?php echo $i; ?> </a> </td>
+        <td><a href="<?php echo URLROOT; ?>/Users/userdetails?id=<?php echo $transaction->idtrans; ?>&signaler=true">transporteur<?php echo $i; ?> </a> </td>
         <td><?php echo $transaction->Avisclient?></td>
         <td><?php echo $transaction->Avistrans?></td>
 
@@ -273,9 +273,9 @@
 
         <tr>
 
-        <th><a href="<?php echo URLROOT; ?>/Users/detailAnnonce?id=<?php echo $transaction->idannonce; ?>&postule=false">Annoce<?php echo ++$i; ?></a></th>
+        <th><a href="<?php echo URLROOT; ?>/Users/detailAnnonce?id=<?php echo $transaction->idannonce; ?>&postule=false&contenu=1">Annoce<?php echo ++$i; ?></a></th>
 
-        <td><a href="<?php echo URLROOT; ?>/Users/userdetails?id=<?php echo $transaction->idtrans; ?>">Client<?php echo $i; ?> </a> </td>
+        <td><a href="<?php echo URLROOT; ?>/Users/userdetails?id=<?php echo $transaction->idtrans; ?>&signaler=true">Client<?php echo $i; ?> </a> </td>
         <td><?php echo $transaction->Avisclient?></td>
         <td><?php echo $transaction->Avistrans?></td>
 

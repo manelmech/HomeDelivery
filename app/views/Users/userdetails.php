@@ -88,7 +88,7 @@
                             <i class="fa fa-facebook">Signaler</i></button></li>
                             <li > <button type="button" id="button" class="instagram" data-toggle="modal" data-target="#Noter">
                             <i class="fa fa-facebook">Noter</i></button></li>
-                        </ul>
+                    
                     </div>
                 </div>
                 <div> </div>
@@ -115,12 +115,19 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <form action="<?php echo URLROOT; ?>/Users/signalerUtilisateur?id=<?php echo $data['transactionsclient'][0]->idtrans?>" method="POST" >
       <div class="modal-body">
         Voulez-vous vraiment le signaler ?
+        <textarea name='contenu' 
+   rows="7" cols="40">Vous pouvez écrire ici.</textarea>
       </div>
+      
       <div class="modal-footer">
+        <button type="submit" class="btn btn-primary"  >Oui</button>
+        
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-primary"  onclick="location.href= '<?php echo URLROOT; ?>/Users/signalerUtilisateur?id=<?php echo $data['transactionsclient'][0]->idtrans?>'">Oui</button>
+       </div> 
+      </form>
       </div>
     </div>
   </div>

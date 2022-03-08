@@ -27,6 +27,16 @@ class User{
 
     }
 
+    
+    public function getUserById($id)
+    {
+        $this->db->query("SELECT * FROM users WHERE iduser=:id");
+        $this->db->bind(':id',$id );
+        $result= $this->db->single();
+        return $result;
+
+    }
+
 
     public function setNote($iduser,$note)
 
@@ -84,7 +94,7 @@ class User{
         }
         
          
-         $this->db->execute();
+        $state=$this->db->execute();
 
         if(($data['wilayadepart']!="") && ($data['wilayaarrive']!="") ){
         $this->db->query('SELECT * FROM users WHERE username= :username');
@@ -134,6 +144,17 @@ class User{
 
             return false;
         }
+
+    }
+
+    public function setEtat($etat,$id)
+    {
+        $this->db->query('UPDATE users SET etat=:etat WHERE iduser=:iduser ');    
+        $this->db->bind(':etat',$etat);
+        $this->db->bind(':iduser',$id);
+        
+        $this->db->execute();
+
 
     }
 

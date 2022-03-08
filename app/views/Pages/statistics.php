@@ -42,6 +42,7 @@
 
 
 
+<?php if( (!isset($_SESSION['user_id']))):?>
 <div id="logo-landing">
 
   <h3 class="btn-login"><a href="<?php echo URLROOT; ?>/Users/login">Login</a></h3>
@@ -50,6 +51,22 @@
   
 
 </div>
+<?php else:?>
+
+  <div id="logo-landing">
+
+  <h3 class="btn-login"><a href="<?php echo URLROOT; ?>/Users/logout">Log out</a></h3>
+
+  <img  id="logoimg" src="<?php echo URLROOT ?>/public/img/logo.png" alt="" height="140%"  >
+  
+
+
+</div>
+
+<?php endif;?>
+
+
+
 
 
 
@@ -64,6 +81,7 @@
 </div>
 
 </br></br></br></br></br></br></br></br>
+<body>
 
   <div id="h">
     <div class="container">
@@ -83,30 +101,22 @@
   </div>
   <!--/H-->
 
- 
+      <center> <h2>Nos chiffres</h2></center>
 
   <div id="g">
     <div class="container">
-      <div class="row centered">
-        <h1>Subscribe to stay informed</h1>
-        <div class="col-md-6 col-md-offset-3">
-          <form role="form" action="register.php" method="post" enctype="plain">
-            <input type="email" name="email" class="subscribe-input" placeholder="Enter your e-mail address..." required>
-            <button class='btn btn-conf btn-blue' style="  background-color: #ffa500" type="submit">Subscribe</button>
-          </form>
-        </div>
-      </div>
+      
       <!--/row-->
 
-      <div class="row mt">
-        <div class="col-md-3">
-        <h1>+3000 Annonces</h1>
+      <div class="row ">
+        <div  class="block">
+        <h1 style=" font-weight: bold;">+3000 Annonces</h1>
         </div>
-        <div class="col-md-5">
-        <h1>+2000 Transporteurss</h1>
+        <div  class="block">
+        <h1 style=" font-weight: bold;">+2000 Transporteurss</h1>
         </div>
-        <div class="col-md-4">
-        <h1>+2000 Chauffeurs</h1>
+        <div class="block">
+        <h1 style=" font-weight: bold;">+2000 Chauffeurs</h1>
         </div>
       </div>
       <!--/row-->
@@ -114,22 +124,36 @@
     <!--/container-->
   </div>
   <!--/div-->
+  <style>
+        .row {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+          }
+        .block {
+          display: block;
+    padding: 30px;
+    text-align: justify;
+    margin-top: 20px;
+   
+  
+   
+
+        }
+
+    </style>
 
 
 
-  <div id="copyrights">
+  
+ <div id="copyrights">
     <div class="container">
       <p>
         &copy; Copyrights <strong>Soon</strong>. All Rights Reserved
       </p>
       <div class="credits">
-        <!--
-          You are NOT allowed to delete the credit link to TemplateMag with free version.
-          You can delete the credit link only if you bought the pro version.
-          Buy the pro version with working PHP/AJAX contact form: https://templatemag.com/soon-website-under-construction-template/
-          Licensing information: https://templatemag.com/license/
-        -->
-        Created with Soon template by <a href="https://templatemag.com/">TemplateMag</a>
+       
       </div>
     </div>
   </div>

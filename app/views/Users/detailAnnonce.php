@@ -4,7 +4,18 @@
 ?>
 
 
+<?php if( (!isset($_SESSION['user_id']))):?>
 <div id="logo-landing">
+
+  <h3 class="btn-login"><a href="<?php echo URLROOT; ?>/Users/login">Login</a></h3>
+
+<img  id="logoimg" src="<?php echo URLROOT ?>/public/img/logo.png" alt="" height="140%"  >
+  
+
+</div>
+<?php else:?>
+
+  <div id="logo-landing">
 
   <h3 class="btn-login"><a href="<?php echo URLROOT; ?>/Users/logout">Log out</a></h3>
 
@@ -13,9 +24,11 @@
 
 </div>
 
+<?php endif;?>
+
+
+
 <div id="section-landing">
-
-
 <?php
     require APPROOT . '/views/includes/navigation.php';
 ?>
@@ -73,20 +86,40 @@
       
        
       <li>
+      <?php  foreach($data['prix'] as $prix ): ?>
+
+     <?php  if(($prix->wilayadepart == $data['detannonce']->pointdepart ) && ($prix->wilayaarrive == $data['detannonce']->pointarrive )): ?>
       <p id='f' > Prix du transport </p>
-      <p  id='f'  class="inputFields"> <?php   print_r($data['detannonce']->prix);  ?> </p>      
+      <p  id='f'  class="inputFields"> <?php   print_r($prix->prix);  ?> </p>  
+      <?php  endif; ?>
+
+      <?php endforeach; ?>    
       </li>
+ 
+
+      </br>
+      <?php if($_GET['contenu'] ==1):?>
+       <li>
+      <p id='e' > Contenu de annonce </p>
+      <p  id='e' cols="100" class="inputFields"> <?php   print_r($data['detannonce']->enonce);  ?> </p>      
+      </li>
+      <?php endif; ?>
+
+      
 
        <li>
       <input name='id' value="<?php  echo $data['detannonce']->idannonce ;?>" type='hidden' />
        </li>
+
+       
+
 
        <li>
       <input name='trans' value=true type='hidden' />
        </li>
 
 
-         <?php if($data['postule']=='true'): ?>
+         <?php if($data['postule']=='true'):?>
       <li id="center-btn">
         <input type="submit" id="join-btn" name="Postuler" alt="Postuler"  value="Postuler">
       </li>
@@ -129,7 +162,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 800px;
-  height: 730px;
+  height: 800px;
   text-align: center;
   display: flex;
   color: white;

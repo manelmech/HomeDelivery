@@ -41,7 +41,7 @@
 ?>
 
 
-
+<?php if( (!isset($_SESSION['user_id']))):?>
 <div id="logo-landing">
 
   <h3 class="btn-login"><a href="<?php echo URLROOT; ?>/Users/login">Login</a></h3>
@@ -50,6 +50,21 @@
   
 
 </div>
+<?php else:?>
+
+  <div id="logo-landing">
+
+  <h3 class="btn-login"><a href="<?php echo URLROOT; ?>/Users/logout">Log out</a></h3>
+
+<img  id="logoimg" src="<?php echo URLROOT ?>/public/img/logo.png" alt="" height="140%"  >
+  
+
+
+</div>
+
+<?php endif;?>
+
+
 
 
 
@@ -71,7 +86,7 @@
         <div class="col-md-8 col-md-offset-2">
           <h1>Contact Us</h1>
           <h5>VOYAGEZ AU TOUR DU MONDE ENTIER Á TRAVERS LE MONDE DES COLIS</h5>
-          <h2>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</h2>
+          <h2>Avec Home Delivey, Delivrez a travers toute l'Algerie</h2>
           <div class="countdown-header">
             <div class="countdown" data-date="2018/11/15"></div>
           </div>
@@ -86,13 +101,11 @@
   <div class="container ptb">
     <div class="row">
       <div class="col-md-6">
-        <h2>We are working hard to launch our awesome new site.</h2>
+        <h2>N'hesitez pas á nous contacter.</h2>
         <BR/>
-        <h4>LOREM IPSUM IS SIMPLY DUMMY TEXT.</h4>
+      
 
-        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content
-          here, content here', making it look like readable English.</p>
-        <p>Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.</p>
+        <p>C’est un jour spécial puisque l’entreprise a déjà 5 ans ! De beaux projets réalisés, quelques défaites mais surtout de très belles victoires, et c’est en grande partie grâce à vous ! Je tenais à vous remercier car c’est vous qui construisez l’entreprise au quotidien. Et ce n’est pas fini…Car bonne nouvelle, j’ai l’immense honneur de vous annoncer le lancement de 2 nouveaux produits d’ici quelques mois. De nouveaux défis et des rêves bientôt réalisés. </p>
         <p><button style="  color:#fff background-color: #ffa500" class="btn btn-conf btn-blue">Learn More</button></p>
       </div>
       <!--/col-md-6-->
@@ -194,13 +207,7 @@
         &copy; Copyrights <strong>Soon</strong>. All Rights Reserved
       </p>
       <div class="credits">
-        <!--
-          You are NOT allowed to delete the credit link to TemplateMag with free version.
-          You can delete the credit link only if you bought the pro version.
-          Buy the pro version with working PHP/AJAX contact form: https://templatemag.com/soon-website-under-construction-template/
-          Licensing information: https://templatemag.com/license/
-        -->
-        Created with Soon template by <a href="https://templatemag.com/">TemplateMag</a>
+       
       </div>
     </div>
   </div>

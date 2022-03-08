@@ -16,6 +16,7 @@ class Annonce{
         INNER JOIN volume ON annonces.fourchettevolume = volume.idvolume 
         INNER JOIN poid ON annonces.fourchettepoid = poid.idpoid
         INNER JOIN typetransport ON typetransport.idtransport = annonces.transporttype
+        INNER JOIN users ON users.iduser = annonces.userid
         INNER JOIN wilayas as wildep ON wildep.idwilaya  = annonces.pointdepart
         INNER JOIN wilayas as wilarv ON wilarv.idwilaya  = annonces.pointarrive' );
         $result= $this->db->resultSet();
@@ -23,10 +24,12 @@ class Annonce{
 
     }
 
+   
+
 
     public function setAnnonce($data)
     {
-        $this->db->query('INSERT INTO annonces (pointdepart, pointarrive,transport,transporttype,fourchettepoid,fourchettevolume,userid,Etat,prix) VALUES (:pointdepart, :pointarrive, :transport, :transporttype, :fourchettepoid, :fourchettevolume, :userid, :Etat, :prix)');
+        $this->db->query('INSERT INTO annonces (pointdepart, pointarrive,transport,transporttype,fourchettepoid,fourchettevolume,userid,Etat,prix,date,enonce) VALUES (:pointdepart, :pointarrive, :transport, :transporttype, :fourchettepoid, :fourchettevolume, :userid, :Etat, :prix, Now(),:enonce)');
         $this->db->bind('pointdepart',$data['pointdepart']);
         $this->db->bind(':pointarrive',$data['pointarrive']);
         $this->db->bind(':transport',$data['transport']);
@@ -34,6 +37,7 @@ class Annonce{
         $this->db->bind(':fourchettepoid',$data['fourchettepoid']);
         $this->db->bind(':fourchettevolume',$data['fourchettevolume']);
         $this->db->bind(':userid',$data['user_id']);
+        $this->db->bind(':enonce',$data['enonce']);
         $this->db->bind(':Etat','En attente');
         $this->db->bind(':prix','');
 

@@ -30,6 +30,18 @@ class Wilaya{
 
     }
 
+    public function getPrixWilayas()
+    {
+        $this->db->query('SELECT * FROM prix ');
+        
+        $result= $this->db->resultSet();
+        return $result;
+
+    }
+
+
+
+
    
 
 
